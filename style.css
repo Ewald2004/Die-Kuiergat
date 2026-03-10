@@ -310,12 +310,14 @@ input, textarea, select, button { font-family: var(--font-body); }
   background: var(--flame);
   overflow: hidden;
   padding: 0.9rem 0;
+  position: relative;
 }
 .ticker {
   display: flex;
   gap: 4rem;
   width: max-content;
-  animation: tickerScroll 28s linear infinite;
+  animation: tickerScroll 20s linear infinite;
+  will-change: transform;
 }
 .ticker span {
   font-family: var(--font-heading);
@@ -325,10 +327,11 @@ input, textarea, select, button { font-family: var(--font-body); }
   text-transform: uppercase;
   white-space: nowrap;
   color: var(--white);
+  flex-shrink: 0;
 }
 @keyframes tickerScroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 /* ══════════════════════════════════

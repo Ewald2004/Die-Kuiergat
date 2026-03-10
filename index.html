@@ -21,7 +21,6 @@
       <li><a href="#gallery">Gallery</a></li>
       <li><a href="#contact">Contact</a></li>
       <!-- ── Nothing in here ── -->
-      <li class="nav-mobile-reserve"><button class="nav-reserve" onclick="openModal('reserveModal')">Reserve a Table</button></li>
     </ul>
     <div class="nav-backdrop" id="navBackdrop"></div>
     <button class="hamburger" id="hamburger" type="button" aria-label="Toggle menu">
@@ -36,6 +35,10 @@
     <div class="hero-content">
      <!--<p class="hero-eyebrow">Est. 2008 · Downtown</p>
 --> 
+
+
+            <!--Insert description for the about section-->
+
       <h1 class="hero-title">Fire-Kissed<br/><span>Flavors</span></h1>
       <p class="hero-sub">Cold beers and lekker vibes.<br/>This is Die Kuiergat.</p>
       <div class="hero-btns">
@@ -76,8 +79,10 @@
     <div class="about-text-col">
       <p class="section-eyebrow">Our Story</p>
       <h2 class="section-title">Where Every Meal<br/>Tells a Story</h2>
-      <p>Born from a love of slow-cooked meats and hand-poured pints. We believe in honest food — charred, rested, and served with pride.</p>
-      <p>Our open-flame grill runs six days a week.And our kitchen team doesn't believe in shortcuts.</p>
+
+
+      <!--Insert description for the about section-->
+      <p></p>
       <div class="about-stats">
         <div class="stat"><span>17</span><small>Signature Dishes</small></div>
         <div class="stat"><span>80+</span><small>Happy Seats</small></div>
@@ -104,9 +109,12 @@
             <span class="original">R150</span>
             <span class="discounted">R120</span>
           </div>
-          <button class="btn-special">Order Now</button>
         </div>
       </div>
+
+
+
+
       <div class="special-card featured">
         <div class="special-badge">⭐ Tuesday </div>
         <div class="special-img" style="background:url('https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&q=80') center/cover"></div>
@@ -118,12 +126,16 @@
             <span class="original">R260</span>
             <span class="discounted">R180</span>
           </div>
-          <button class="btn-special">Order Now</button>
+          
         </div>
       </div>
+
+
+
+
       <div class="special-card featured">
         <div class="special-badge">⭐ Wednesday </div>
-        <div class="special-img" style="background:url('https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&q=80') center/cover"></div>
+        <div class="special-img" style="background:url('Photos/BurgerSpecial.jpeg') center/cover"></div>
         <div class="special-content">
           <h3>Burger & Chips</h3>
           <!-- ── Insert discription for meals ── -->
@@ -132,9 +144,13 @@
             <span class="original">R65</span>
             <span class="discounted">R50</span>
           </div>
-          <button class="btn-special">Order Now</button>
+          
         </div>
       </div>
+
+
+
+
       <div class="special-card featured">
         <div class="special-badge">⭐ Thursday </div>
         <div class="special-img" style="background:url('https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&q=80') center/cover"></div>
@@ -146,9 +162,12 @@
             <span class="original">R200</span>
             <span class="discounted">R180</span>
           </div>
-          <button class="btn-special">Order Now</button>
+          
         </div>
       </div>
+
+
+
       <div class="special-card featured">
         <div class="special-badge">⭐ Friday </div>
         <div class="special-img" style="background:url('https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&q=80') center/cover"></div>
@@ -160,7 +179,7 @@
             <span class="original">R140</span>
             <span class="discounted">R120</span>
           </div>
-          <button class="btn-special">Order Now</button>
+          
         </div>
       </div>
       
@@ -172,32 +191,46 @@
   <!-- ── MENU ── -->
   <section id="menu" class="menu-section">
     <div class="section-header">
-      <p class="section-eyebrow">What We Serve</p>
+      
       <h2 class="section-title">The Menu</h2>
     </div>
     <div class="menu-tabs">
       <button class="menu-tab active" data-tab="lightMeals">🔥 Light Meals</button>
-      <button class="menu-tab" data-tab="starters">🍟 Starters</button>
+      <button class="menu-tab" data-tab="seafood">🦀 Seafood</button>
+      <button class="menu-tab" data-tab="Pizza">🍕 Pizza</button>
       <button class="menu-tab" data-tab="drinks">🍺 Drinks</button>
     </div>
 
     <div class="menu-grid" id="menu-lightMeals">
       <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Beef Burger</h3><p> Served With Chips </p><span class="price">R65</span></div></div>
       <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Chicken Burger</h3><p>Served With Chips</p><span class="price">R65</span></div></div>
-      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Loaded Fries</h3><p>Served With Chips</p><span class="price">R70</span></div></div>
-      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Chicken Schnitzel</h3><p>Served With Chips</p><span class="price">R100</span></div></div>
+      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Loaded Fries</h3><p>Large chips covered with cheese sauce, bacon bits & Jalapeno</p><span class="price">R70</span></div></div>
+      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Chicken Schnitzel</h3><p>Served With a sauce, Chips & Onion Rings</p><span class="price">R100</span></div></div>
       <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Eisbein</h3><p>Served With Chips</p><span class="price">R140</span></div></div>
       <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Half Rack Ribs</h3><p>Served With Chips</p><span class="price">R120</span></div></div>
       <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Full Rack Ribs</h3><p>Served With Chips</p><span class="price">R200</span></div></div>
       <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>200g Sirloin Steak & Egg</h3><p>Served With Chips</p><span class="price">R100</span></div></div>
       
-      <!--
-    </div>
-
-    <div class="menu-grid hidden" id="menu-starters">
       
     </div>
 
+    <div class="menu-grid hidden" id="menu-seafood">
+      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Hake & Calamari Combo</h3><p> Served With Chips </p><span class="price">R150</span></div></div>
+      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Calamari</h3><p>Served With Chips</p><span class="price">R105</span></div></div>
+      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Large Hake</h3><p>Served With Chips</p><span class="price">R105</span></div></div>
+      
+      
+    </div>
+
+
+    <div class="menu-grid" id="menu-Pizza">
+      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Focaccia</h3><span class="price">R70</span></div></div>
+      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Hawaiin</h3><span class="price">R120</span></div></div>
+      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Rib</h3><span class="price">R130</span></div></div>
+      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>BBQ Chicken</h3><span class="price">R120</span></div></div>
+      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Creamy Jalapeno & Bacon</h3><span class="price">R120</span></div></div>
+    </div>
+<!--
     <div class="menu-grid hidden" id="menu-drinks">
       
     </div>-->
@@ -249,7 +282,7 @@
       <div class="event-card">
         <div class="event-date"><span class="day">14</span><span class="month">JUN</span></div>
         <div class="event-info"><h3>Jay Show</h3><p>Jay show with band. 3pm–10pm.</p></div>
-        <button class="btn-event">Get Tickets</button>
+        
       </div>
       
       
@@ -265,7 +298,7 @@
         <div class="contact-item"><i class="fas fa-map-marker-alt"></i><div><strong>Address</strong><span>2 Vlei St, Retief, Despatch, 6220</span></div></div>
         <div class="contact-item"><i class="fas fa-phone"></i><div><strong>Phone</strong><span>082 *** ****</span></div></div>
        <!-- <div class="contact-item"><i class="fas fa-envelope"></i><div><strong>Email</strong><span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="95fdf0f9f9fad5f7f9f4eff0f4fbf1f7f4e7e7f0f9bbf6faf8">[email&#160;protected]</a></span></div></div> -->
-        <div class="contact-item"><i class="fas fa-clock"></i><div><strong>Hours</strong><span>Mon–Sat: 11am–12pm<br/>Sun: 11am–9pm</span></div></div>
+        <div class="contact-item"><i class="fas fa-clock"></i><div><strong>Hours</strong><span>Mon–Sat: 11am–12pm<br/>Sun: 11am–8pm</span></div></div>
         <div class="contact-item"><i class="fas fa-clock"></i><div><strong>Kitchen Hours</strong><span>Mon–Sat: 11am–8pm<br/>Wed: 10am–5pm<br/>Sun: Closed</span></div></div>
       </div>
 
@@ -278,20 +311,7 @@
       </div>
       -->
     </div>
-    <!--
-    <div class="contact-right">
-      <form class="contact-form" onsubmit="handleFormSubmit(event)">
-        <h3>Send Us a Message</h3>
-        <div class="form-row">
-          <input type="text" placeholder="Your Name" required/>
-          <input type="email" placeholder="Email Address" required/>
-        </div>
-        <input type="text" placeholder="Subject"/>
-        <textarea rows="5" placeholder="Your message..." required></textarea>
-        <button type="submit" class="btn-primary">Send Message <i class="fas fa-paper-plane"></i></button>
-      </form>
-    </div>
-    -->
+    
   </section>
 
   <!-- ── FOOTER ── -->
@@ -312,35 +332,7 @@
     -->
   </footer>
 
-  <!-- ── RESERVATION MODAL ── 
-  <div class="modal-overlay" id="reserveModal">
-    <div class="modal">
-      <button class="modal-close" onclick="closeModal('reserveModal')">✕</button>
-      <h2>Reserve a Table</h2>
-      <form onsubmit="handleReservation(event)">
-        <div class="form-row">
-          <input type="text" placeholder="Full Name" required/>
-          <input type="email" placeholder="Email" required/>
-        </div>
-        <div class="form-row">
-          <input type="date" required/>
-          <input type="time" required/>
-        </div>
-        <div class="form-row">
-          <select>
-            <option>1 Guest</option><option>2 Guests</option><option>3 Guests</option>
-            <option>4 Guests</option><option>5 Guests</option><option>6+ Guests</option>
-          </select>
-          <select>
-            <option>Indoor Seating</option><option>Bar Area</option><option>Patio</option>
-          </select>
-        </div>
-        <textarea rows="3" placeholder="Special requests..."></textarea>
-        <button type="submit" class="btn-primary" style="width:100%">Confirm Reservation 🔥</button>
-      </form>
-    </div>
-  </div>
-  -->
+
 
   <script src="script.js"></script>
 </body>

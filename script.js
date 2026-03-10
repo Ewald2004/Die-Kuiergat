@@ -68,20 +68,9 @@ function showToast(msg, duration = 3200) {
   setTimeout(() => toast.classList.remove('show'), duration);
 }
 
-/* ── Reservation form ── */
-function handleReservation(e) {
-  e.preventDefault();
-  closeModal('reserveModal');
-  showToast('🔥 Table reserved! We\'ll confirm via email.');
-  e.target.reset();
-}
 
-/* ── Contact form ── */
-function handleFormSubmit(e) {
-  e.preventDefault();
-  showToast('✅ Message sent! We\'ll be in touch soon.');
-  e.target.reset();
-}
+
+
 
 /* ════════════════════════════════════
    SPECIALS — Interactive Features

@@ -449,10 +449,12 @@ input, textarea, select, button { font-family: var(--font-body); }
   z-index: 2;
 }
 .special-img {
+  width: 100%;
   height: 360px;
-  background-size: cover !important;
-  background-position: center !important;
+  object-fit: cover; /* fill the container so all cards look identical */
+  object-position: center;
   transition: transform 0.5s ease;
+  display: block;
 }
 .special-card:hover .special-img { transform: scale(1.05); }
 .special-content {
@@ -652,7 +654,10 @@ input, textarea, select, button { font-family: var(--font-body); }
 .gallery-grid.horizontal-scroll {
   overflow-x: auto;
   padding-bottom: 1rem;
+  /* hide scrollbar for a cleaner look */
+  scrollbar-width: none; /* Firefox */
 }
+.gallery-grid.horizontal-scroll::-webkit-scrollbar { display: none; } /* Chrome/Safari/Edge */
 .gallery-grid.horizontal-scroll .gallery-item {
   flex: 0 0 auto;
 }
@@ -992,7 +997,7 @@ textarea { resize: vertical; }
   .special-card.featured {
     grid-row: span 1;
   }
-  .special-img { height: 240px; }
+  .special-img { height: 240px; object-fit: contain; object-position: center; }
 
   /* Events */
   .events-grid {
@@ -1101,7 +1106,7 @@ textarea { resize: vertical; }
   .special-card.featured {
     grid-row: span 1;
   }
-  .special-img { height: 240px; }
+  .special-img { height: 240px; object-fit: contain; object-position: center; }
   .special-content { padding: 1.2rem; }
   .special-content h3 { font-size: 1.2rem; }
 

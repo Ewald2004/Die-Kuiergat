@@ -135,15 +135,39 @@ let galleryImages = []; // stores all src strings for lightbox
 let lightboxIndex = 0;
 
 /* Collect initial gallery images */
+function updateGalleryVisibility() {
+  document.querySelectorAll('.gallery-category').forEach(cat => {
+    const grid = cat.querySelector('.gallery-grid');
+    if (grid && grid.children.length === 0) {
+      cat.style.display = 'none';
+    } else {
+      cat.style.display = '';
+    }
+  });
+}
+
 function refreshGalleryIndex() {
   galleryImages = Array.from(
     document.querySelectorAll('#galleryFloorGrid .gallery-item img, #galleryBarGrid .gallery-item img')
   ).map(img => img.src);
+  updateGalleryVisibility();
 }
 refreshGalleryIndex();
 
+// remove any gallery images that fail to load (missing folder etc.)
+document.querySelectorAll('.gallery-item img').forEach(img => {
+  img.addEventListener('error', () => {
+    const item = img.closest('.gallery-item');
+    if (item) {
+      item.remove();
+      refreshGalleryIndex();
+    }
+  });
+});
+
 /* ── Lightbox open ── */
-document.getElementById('galleryGrid').addEventListener('click', e => {
+// delegate clicks on any image item (works for both hardcoded and uploaded photos)
+document.addEventListener('click', e => {
   const item = e.target.closest('.gallery-item');
   if (!item) return;
   const img = item.querySelector('img');

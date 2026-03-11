@@ -663,7 +663,7 @@ input, textarea, select, button { font-family: var(--font-body); }
   overflow: hidden;
   cursor: pointer;
   position: relative;
-  height: 360px; /* uniform height */
+  height: 200px; /* uniform height */
 }
 .gallery-item img {
   width: 100%;

@@ -1110,6 +1110,8 @@ textarea { resize: vertical; }
   /* keep horizontal-scroll flex layout; only use columns for normal grids */
   .gallery-grid:not(.horizontal-scroll) { columns: 2; column-gap: 0.8rem; }
   .gallery-item { margin-bottom: 0.8rem; }
+  /* reduce height on phones/tablets */
+  .gallery-item { height: 220px; }
   .gallery-upload-zone { padding: 1.8rem 1.2rem; }
 
   /* ── Events ── */
@@ -1165,6 +1167,7 @@ textarea { resize: vertical; }
 
   /* ── Gallery ── */
   .gallery-grid:not(.horizontal-scroll) { columns: 1; }
+  .gallery-item { height: 180px; }
   .gallery-upload-zone { padding: 1.5rem 1rem; }
   .upload-icon { font-size: 2rem; }
   .gallery-upload-zone p { font-size: 0.85rem; }

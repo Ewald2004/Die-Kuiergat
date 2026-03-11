@@ -992,6 +992,7 @@ textarea { resize: vertical; }
   .special-card.featured {
     grid-row: span 1;
   }
+  .special-img { height: 240px; }
 
   /* Events */
   .events-grid {
@@ -1106,7 +1107,8 @@ textarea { resize: vertical; }
 
   /* ── Gallery ── */
   .gallery-section { padding: 4rem 4%; }
-  .gallery-grid { columns: 2; column-gap: 0.8rem; }
+  /* keep horizontal-scroll flex layout; only use columns for normal grids */
+  .gallery-grid:not(.horizontal-scroll) { columns: 2; column-gap: 0.8rem; }
   .gallery-item { margin-bottom: 0.8rem; }
   .gallery-upload-zone { padding: 1.8rem 1.2rem; }
 
@@ -1162,7 +1164,7 @@ textarea { resize: vertical; }
   .menu-tab { flex-shrink: 0; }
 
   /* ── Gallery ── */
-  .gallery-grid { columns: 1; }
+  .gallery-grid:not(.horizontal-scroll) { columns: 1; }
   .gallery-upload-zone { padding: 1.5rem 1rem; }
   .upload-icon { font-size: 2rem; }
   .gallery-upload-zone p { font-size: 0.85rem; }

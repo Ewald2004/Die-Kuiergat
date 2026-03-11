@@ -1112,6 +1112,8 @@ textarea { resize: vertical; }
   .gallery-item { margin-bottom: 0.8rem; }
   /* reduce height on phones/tablets */
   .gallery-item { height: 220px; }
+  /* limit width on horiz scroll rows so they don't fill viewport entirely */
+  .gallery-grid.horizontal-scroll .gallery-item { flex: 0 0 60vw; max-width: 60vw; }
   .gallery-upload-zone { padding: 1.8rem 1.2rem; }
 
   /* ── Events ── */
@@ -1168,6 +1170,7 @@ textarea { resize: vertical; }
   /* ── Gallery ── */
   .gallery-grid:not(.horizontal-scroll) { columns: 1; }
   .gallery-item { height: 180px; }
+  .gallery-grid.horizontal-scroll .gallery-item { flex: 0 0 70vw; max-width: 70vw; }
   .gallery-upload-zone { padding: 1.5rem 1rem; }
   .upload-icon { font-size: 2rem; }
   .gallery-upload-zone p { font-size: 0.85rem; }

@@ -57,14 +57,14 @@
     <div class="ticker">
       
       <span>🔥 Sassa Pot Sundays</span>
-      <span>🥩 Burger Special Wednesdays</span>
-      <span>🍺 Brandy specials all week</span>
+      <span>🥩 Burger Special Wednesday</span>
+      <span>🍺 Brandy special all week</span>
       <span>🔥 Sassa Pot Sundays</span>
-      <span>🥩 Burger Special Wednesdays</span>
-      <span>🍺 Brandy specials all week</span>
+      <span>🥩 Burger Special Wednesday</span>
+      <span>🍺 Brandy special all week</span>
       <span>🔥 Sassa Pot Sundays</span>
-      <span>🥩 Burger Special Wednesdays</span>
-      <span>🍺 Brandy specials all week</span>
+      <span>🥩 Burger Special Wednesday</span>
+      <span>🍺 Brandy special all week</span>
     </div>
   </div>
 
@@ -243,20 +243,34 @@
     <div class="section-header">
       <p class="section-eyebrow">The Atmosphere</p>
       <h2 class="section-title">Gallery</h2>
-      
     </div>
-  <!--
+<!--
     <div class="gallery-upload-zone" id="uploadZone">
       <input type="file" id="fileInput" accept="image/*" multiple hidden/>
+      <div class="upload-controls">
+        <label for="galleryCategory">Category:</label>
+        <select id="galleryCategory">
+          <option value="Floor">The floor</option>
+          <option value="Bar">The bar</option>
+        </select>
+      </div>
       <div class="upload-icon">📸</div>
       <p>Drag &amp; drop your photos here, or <button onclick="document.getElementById('fileInput').click()">browse files</button></p>
       <small>PNG, JPG, WEBP — up to 20MB each</small>
     </div>
-    -->
+-->
+    <div class="gallery-category">
+      <h3>The Floor</h3>
+      <div class="gallery-grid horizontal-scroll" id="galleryFloorGrid">
+        <div class="gallery-item"><img src="Photos/Floor/Floor1.jpeg" alt="Restaurant interior"/></div>
+      </div>
+    </div>
 
-    <div class="gallery-grid" id="galleryGrid">
-      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80" alt="Restaurant interior"/><div class="gallery-overlay"><span>The Floor</span></div></div>
-      <div class="gallery-item tall"><img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80" alt="Bar area"/><div class="gallery-overlay"><span>The Bar</span></div></div>
+    <div class="gallery-category">
+      <h3>The Bar</h3>
+      <div class="gallery-grid horizontal-scroll" id="galleryBarGrid">
+        <div class="gallery-item tall"><img src="Photos/Bar/Bar1.jpeg" alt="Bar area"/><div class="gallery-overlay"><span>The Bar</span></div></div>
+      </div>
     </div>
 
     <!-- Lightbox -->

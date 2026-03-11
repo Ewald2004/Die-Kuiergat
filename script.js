@@ -137,7 +137,7 @@ let lightboxIndex = 0;
 /* Collect initial gallery images */
 function refreshGalleryIndex() {
   galleryImages = Array.from(
-    document.querySelectorAll('#galleryGrid .gallery-item img')
+    document.querySelectorAll('#galleryFloorGrid .gallery-item img, #galleryBarGrid .gallery-item img')
   ).map(img => img.src);
 }
 refreshGalleryIndex();
@@ -233,7 +233,11 @@ function addImageToGallery(src, label = 'Your Photo') {
     item.style.opacity = '0';
     setTimeout(() => { item.remove(); refreshGalleryIndex(); }, 300);
   });
-  galleryGrid.prepend(item);
+
+  // choose container based on label text (category) or default to floor
+  const containerId = label === 'The Bar' ? 'galleryBarGrid' : 'galleryFloorGrid';
+  const container = document.getElementById(containerId) || document.getElementById('galleryFloorGrid');
+  container.appendChild(item);
   refreshGalleryIndex();
 
   // Animate in

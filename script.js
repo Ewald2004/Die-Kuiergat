@@ -1,6 +1,3 @@
-/* ═══════════════════════════════════════════
-   BLAZE & BARREL — script.js
-═══════════════════════════════════════════ */
 
 /* ── Navbar scroll ── */
 const navbar = document.getElementById('navbar');

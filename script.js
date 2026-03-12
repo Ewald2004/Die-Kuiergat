@@ -29,6 +29,61 @@ navLinks.querySelectorAll('a').forEach(a => {
   a.addEventListener('click', () => toggleNav(false));
 });
 
+/* ── Ticker loop ── */
+let tickerLoopFrame = 0;
+
+function setupTickerLoop() {
+  const ticker = document.querySelector('.ticker');
+  const tickerWrap = document.querySelector('.ticker-wrap');
+  if (!ticker || !tickerWrap) return;
+
+  if (!ticker.dataset.baseMarkup) {
+    ticker.dataset.baseMarkup = Array.from(ticker.children)
+      .map((item) => item.outerHTML)
+      .join('');
+  }
+
+  ticker.style.animation = 'none';
+  ticker.innerHTML = ticker.dataset.baseMarkup;
+
+  const baseItems = Array.from(ticker.children).map((item) => item.outerHTML);
+  if (!baseItems.length) return;
+
+  let safety = 0;
+  while (ticker.scrollWidth < tickerWrap.clientWidth * 2 && safety < 12) {
+    ticker.insertAdjacentHTML('beforeend', baseItems.join(''));
+    safety += 1;
+  }
+
+  const loopMarkup = ticker.innerHTML;
+  ticker.insertAdjacentHTML('beforeend', loopMarkup);
+
+  const half = ticker.children.length / 2;
+  Array.from(ticker.children).slice(half).forEach((item) => {
+    item.setAttribute('aria-hidden', 'true');
+  });
+
+  requestAnimationFrame(() => {
+    ticker.style.setProperty('--ticker-distance', `-${ticker.scrollWidth / 2}px`);
+    ticker.style.removeProperty('animation');
+  });
+}
+
+function queueTickerLoopSetup() {
+  cancelAnimationFrame(tickerLoopFrame);
+  tickerLoopFrame = requestAnimationFrame(() => {
+    requestAnimationFrame(setupTickerLoop);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', queueTickerLoopSetup);
+window.addEventListener('load', queueTickerLoopSetup);
+window.addEventListener('resize', queueTickerLoopSetup);
+
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(queueTickerLoopSetup);
+}
+
 /* ── Menu Tabs ── */
 const tabs = document.querySelectorAll('.menu-tab');
 tabs.forEach(tab => {
@@ -204,23 +259,25 @@ const fileInput  = document.getElementById('fileInput');
 const uploadZone = document.getElementById('uploadZone');
 const galleryGrid = document.getElementById('galleryGrid');
 
-fileInput.addEventListener('change', e => handleFiles(e.target.files));
+if (fileInput && uploadZone) {
+  fileInput.addEventListener('change', e => handleFiles(e.target.files));
 
-// Drag & drop
-uploadZone.addEventListener('dragover', e => {
-  e.preventDefault();
-  uploadZone.classList.add('drag-over');
-});
-uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
-uploadZone.addEventListener('drop', e => {
-  e.preventDefault();
-  uploadZone.classList.remove('drag-over');
-  handleFiles(e.dataTransfer.files);
-});
-// Clicking the zone (not the button) also triggers upload
-uploadZone.addEventListener('click', e => {
-  if (e.target.tagName !== 'BUTTON') fileInput.click();
-});
+  // Drag & drop
+  uploadZone.addEventListener('dragover', e => {
+    e.preventDefault();
+    uploadZone.classList.add('drag-over');
+  });
+  uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
+  uploadZone.addEventListener('drop', e => {
+    e.preventDefault();
+    uploadZone.classList.remove('drag-over');
+    handleFiles(e.dataTransfer.files);
+  });
+  // Clicking the zone (not the button) also triggers upload
+  uploadZone.addEventListener('click', e => {
+    if (e.target.tagName !== 'BUTTON') fileInput.click();
+  });
+}
 
 function handleFiles(files) {
   let count = 0;

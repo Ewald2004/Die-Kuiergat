@@ -1,0 +1,18 @@
+--> Edit details in here eg address
+--> Inside " " means the VALUE that is being displayed as shown below
+--> icon can be any inline text/emoji icon
+
+label,value,icon
+
+
+
+Address,"2 Vlei St, Retief, Despatch, 6220",📍
+
+
+Phone,"082 *** ****",📞
+
+
+Hours,"Mon-Sat: 11am-12pm|Sun: 11am-8pm",🕒
+
+
+Kitchen Hours,"Mon-Sat: 11am-8pm|Wed: 10am-5pm|Sun: Closed",🍽️

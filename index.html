@@ -72,7 +72,7 @@
 
 
       <!--Insert description for the about section-->
-      <p></p>
+      <p data-desc-key="about.main">description</p>
       <div class="about-stats">
         <div class="stat"><span>17</span><small>Signature Dishes</small></div>
         <div class="stat"><span>80+</span><small>Happy Seats</small></div>
@@ -304,37 +304,12 @@
     <div class="gallery-category">
       <h3>The Floor</h3>
       <div class="gallery-grid horizontal-scroll" id="galleryFloorGrid">
-        <div class="gallery-item"><img src="Photos/Floor/Floor1.jpeg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor2.jpg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor3.jpg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor4.jpg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor5.jpeg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor6.jpeg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor7.jpeg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor8.jpeg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor9.jpeg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor10.jpeg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor11.jpeg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor12.jpeg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor13.jpeg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor14.jpeg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor15.jpeg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor16.jpeg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor17.jpeg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor18.jpeg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor19.jpeg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor20.jpeg" alt="Restaurant interior"/></div>
-        
-        
       </div>
     </div>
 
     <div class="gallery-category">
       <h3>The Bar</h3>
       <div class="gallery-grid horizontal-scroll" id="galleryBarGrid">
-        <div class="gallery-item tall"><img src="Photos/Bar/Bar1.jpeg" alt="Bar area"/></div>
-        <div class="gallery-item tall"><img src="Photos/Bar/Bar2.jpeg" alt="Bar area"/></div>
-        <div class="gallery-item tall"><img src="Photos/Bar/Bar3.jpeg" alt="Bar area"/></div>
       </div>
     </div>
 
@@ -368,12 +343,11 @@
     <div class="contact-left">
       <p class="section-eyebrow">Find Us</p>
       <h2 class="section-title">Come On In</h2>
-      <div class="contact-details">
-        <div class="contact-item"><i class="fas fa-map-marker-alt"></i><div><strong>Address</strong><span>2 Vlei St, Retief, Despatch, 6220</span></div></div>
-        <div class="contact-item"><i class="fas fa-phone"></i><div><strong>Phone</strong><span>082 *** ****</span></div></div>
-       <!-- <div class="contact-item"><i class="fas fa-envelope"></i><div><strong>Email</strong><span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="95fdf0f9f9fad5f7f9f4eff0f4fbf1f7f4e7e7f0f9bbf6faf8">[email&#160;protected]</a></span></div></div> -->
-        <div class="contact-item"><i class="fas fa-clock"></i><div><strong>Hours</strong><span>Mon–Sat: 11am–12pm<br/>Sun: 11am–8pm</span></div></div>
-        <div class="contact-item"><i class="fas fa-clock"></i><div><strong>Kitchen Hours</strong><span>Mon–Sat: 11am–8pm<br/>Wed: 10am–5pm<br/>Sun: Closed</span></div></div>
+      <div class="contact-details" id="contactDetails">
+        <div class="contact-item"><span class="contact-item-icon" aria-hidden="true">📍</span><div><strong>Address</strong><span>2 Vlei St, Retief, Despatch, 6220</span></div></div>
+        <div class="contact-item"><span class="contact-item-icon" aria-hidden="true">📞</span><div><strong>Phone</strong><span>082 *** ****</span></div></div>
+        <div class="contact-item"><span class="contact-item-icon" aria-hidden="true">🕒</span><div><strong>Hours</strong><span>Mon–Sat: 11am–12pm<br/>Sun: 11am–8pm</span></div></div>
+        <div class="contact-item"><span class="contact-item-icon" aria-hidden="true">🍽️</span><div><strong>Kitchen Hours</strong><span>Mon–Sat: 11am–8pm<br/>Wed: 10am–5pm<br/>Sun: Closed</span></div></div>
       </div>
 
 
@@ -392,7 +366,7 @@
   <footer class="footer">
     <div class="footer-top">
       <div class="footer-brand">🔥 Die Kuiergat</div>
-      <p>Good fire. Good beer. Good times.</p>
+      <p data-desc-key="footer.tagline">Good fire. Good beer. Good times.</p>
     </div>
     <div class="footer-links">
       <a href="#home">Home</a>

@@ -1,0 +1,19 @@
+--> Edit special names and prices here.
+--> This line below refers to each of the values so after each comma is the new value or name as explained below
+
+day,name,original_price,discounted_price
+
+
+monday,Fish & Calamari Combo,R150
+
+
+tuesday,Buy 2 pizzas,R260,R180
+
+
+wednesday,Burger & Chips,R65,R50
+
+
+thursday,Full Rack Ribs,R200,R180
+
+
+friday,"Eisbein, Chips & Onion Rings",R140,R120

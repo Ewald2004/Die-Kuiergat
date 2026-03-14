@@ -34,11 +34,11 @@ async function loadTickerFromCsv() {
   if (!ticker) return;
 
   try {
-    const response = await fetch('ticker.csv', { cache: 'no-store' });
+    const response = await fetch('Details/ticker.csv', { cache: 'no-store' });
     if (!response.ok) return;
 
     const csvText = await response.text();
-    const lines = csvText.split(/\r?\n/).filter(line => line.trim());
+    const lines = getCsvLines(csvText);
     if (lines.length <= 1) return;
 
     const entries = lines
@@ -60,6 +60,247 @@ async function loadTickerFromCsv() {
     delete ticker.dataset.baseMarkup;
   } catch {
     // Keep the inline ticker content as fallback when CSV cannot be loaded.
+  }
+}
+
+function getCsvLines(csvText) {
+  return csvText
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => line && !line.startsWith('-->'));
+}
+
+function parseCsvRow(row) {
+  const values = [];
+  let current = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < row.length; i += 1) {
+    const ch = row[i];
+
+    if (ch === '"') {
+      if (inQuotes && row[i + 1] === '"') {
+        current += '"';
+        i += 1;
+      } else {
+        inQuotes = !inQuotes;
+      }
+      continue;
+    }
+
+    if (ch === ',' && !inQuotes) {
+      values.push(current.trim());
+      current = '';
+      continue;
+    }
+
+    current += ch;
+  }
+
+  values.push(current.trim());
+  return values;
+}
+
+function escapeHtml(text) {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+async function loadDescriptionsFromCsv() {
+  const descriptionNodes = Array.from(document.querySelectorAll('[data-desc-key]'));
+  if (!descriptionNodes.length) return;
+
+  try {
+    const response = await fetch('Details/descriptions.csv', { cache: 'no-store' });
+    if (!response.ok) return;
+
+    const csvText = await response.text();
+    const lines = getCsvLines(csvText);
+    if (lines.length <= 1) return;
+
+    const descriptionsByKey = new Map();
+    lines.slice(1).map(parseCsvRow).forEach((row) => {
+      const [key = '', text = ''] = row;
+      const normalizedKey = key.trim();
+      if (!normalizedKey) return;
+      descriptionsByKey.set(normalizedKey, text);
+    });
+
+    descriptionNodes.forEach((node) => {
+      const key = (node.dataset.descKey || '').trim();
+      if (!key || !descriptionsByKey.has(key)) return;
+
+      const value = descriptionsByKey.get(key) || '';
+      node.innerHTML = escapeHtml(value).replace(/\|/g, '<br/>');
+    });
+  } catch {
+    // Keep inline copy as fallback when CSV cannot be loaded.
+  }
+}
+
+function getSpecialCardByKey(key) {
+  const normalized = key.trim().toLowerCase();
+  const order = {
+    monday: 1,
+    tuesday: 2,
+    wednesday: 3,
+    thursday: 4,
+    friday: 5
+  };
+
+  const index = order[normalized];
+  if (!index) return null;
+  return document.querySelector(`#specials .special-card:nth-of-type(${index})`);
+}
+
+async function loadSpecialChangesFromCsv() {
+  try {
+    const response = await fetch('Details/special changes.csv', { cache: 'no-store' });
+    if (!response.ok) return;
+
+    const csvText = await response.text();
+    const lines = getCsvLines(csvText);
+    if (lines.length <= 1) return;
+
+    lines.slice(1).map(parseCsvRow).forEach((row) => {
+      const [day = '', name = '', originalPrice = '', discountedPrice = ''] = row;
+      const card = getSpecialCardByKey(day);
+      if (!card) return;
+
+      const nameEl = card.querySelector('.special-content h3');
+      const originalEl = card.querySelector('.special-price .original');
+      const discountedEl = card.querySelector('.special-price .discounted');
+
+      if (name.trim() && nameEl) {
+        nameEl.textContent = name.trim();
+      }
+      if (originalPrice.trim() && originalEl) {
+        originalEl.textContent = originalPrice.trim();
+      }
+      if (discountedPrice.trim() && discountedEl) {
+        discountedEl.textContent = discountedPrice.trim();
+      }
+    });
+  } catch {
+    // Keep inline specials content as fallback when CSV cannot be loaded.
+  }
+}
+
+function getMenuGridByCategory(category) {
+  const normalized = category.trim().toLowerCase();
+  const categoryToId = {
+    lightmeals: 'menu-lightMeals',
+    seafood: 'menu-seafood',
+    pizza: 'menu-Pizza',
+    addons: 'menu-addOns',
+    drinks: 'menu-drinks'
+  };
+
+  const gridId = categoryToId[normalized];
+  return gridId ? document.getElementById(gridId) : null;
+}
+
+function setMenuItemDetails(scopeElement, itemName, newPrice, newDescription = '') {
+  const cards = Array.from(scopeElement.querySelectorAll('.menu-card'));
+  const match = cards.find((card) => {
+    const title = card.querySelector('.menu-card-body h3');
+    return title && title.textContent.trim().toLowerCase() === itemName.trim().toLowerCase();
+  });
+
+  if (!match) return false;
+
+  const body = match.querySelector('.menu-card-body');
+  if (!body) return false;
+
+  const priceNode = match.querySelector('.price');
+  if (priceNode && newPrice.trim()) {
+    priceNode.textContent = newPrice.trim();
+  }
+
+  if (newDescription.trim()) {
+    let descriptionNode = body.querySelector('p');
+    if (!descriptionNode) {
+      descriptionNode = document.createElement('p');
+      if (priceNode) {
+        body.insertBefore(descriptionNode, priceNode);
+      } else {
+        body.appendChild(descriptionNode);
+      }
+    }
+    descriptionNode.textContent = newDescription.trim();
+  }
+
+  return true;
+}
+
+async function loadMenuPriceChangesFromCsv() {
+  try {
+    const response = await fetch('Details/menu price changes.csv', { cache: 'no-store' });
+    if (!response.ok) return;
+
+    const csvText = await response.text();
+    const lines = getCsvLines(csvText);
+    if (lines.length <= 1) return;
+
+    lines.slice(1).map(parseCsvRow).forEach((row) => {
+      const [category = '', itemName = '', price = '', description = ''] = row;
+      if (!itemName.trim()) return;
+
+      const categoryGrid = category.trim() ? getMenuGridByCategory(category) : null;
+
+      if (categoryGrid) {
+        setMenuItemDetails(categoryGrid, itemName, price, description);
+        return;
+      }
+
+      // Fallback: search all menu sections if category is blank/unknown.
+      const allMenuGrids = Array.from(document.querySelectorAll('#menu .menu-grid'));
+      allMenuGrids.some((grid) => setMenuItemDetails(grid, itemName, price, description));
+    });
+  } catch {
+    // Keep inline prices as fallback when CSV cannot be loaded.
+  }
+}
+
+async function loadContactDetailsFromCsv() {
+  const contactDetails = document.getElementById('contactDetails');
+  if (!contactDetails) return;
+
+  try {
+    const response = await fetch('Details/contact details.csv', { cache: 'no-store' });
+    if (!response.ok) return;
+
+    const csvText = await response.text();
+    const lines = getCsvLines(csvText);
+    if (lines.length <= 1) return;
+
+    const rows = lines.slice(1).map(parseCsvRow);
+    const entries = rows
+      .map((row) => {
+        const [label = '', value = '', icon = 'fas fa-circle-info'] = row;
+        return {
+          label: label.trim(),
+          value: value.trim(),
+          icon: icon.trim() || 'fas fa-circle-info'
+        };
+      })
+      .filter((item) => item.label && item.value);
+
+    if (!entries.length) return;
+
+    contactDetails.innerHTML = entries.map((item) => {
+      const safeLabel = escapeHtml(item.label);
+      const safeIcon = escapeHtml(item.icon || '•');
+      const valueWithBreaks = escapeHtml(item.value).replace(/\|/g, '<br/>');
+
+      return `<div class="contact-item"><span class="contact-item-icon" aria-hidden="true">${safeIcon}</span><div><strong>${safeLabel}</strong><span>${valueWithBreaks}</span></div></div>`;
+    }).join('');
+  } catch {
+    // Keep inline contact details as fallback when CSV cannot be loaded.
   }
 }
 
@@ -109,6 +350,11 @@ function queueTickerLoopSetup() {
 
 document.addEventListener('DOMContentLoaded', async () => {
   await loadTickerFromCsv();
+  await loadDescriptionsFromCsv();
+  await loadSpecialChangesFromCsv();
+  await loadMenuPriceChangesFromCsv();
+  await loadContactDetailsFromCsv();
+  await loadGalleryFromFolders();
   queueTickerLoopSetup();
 });
 window.addEventListener('load', async () => {
@@ -272,6 +518,66 @@ function refreshGalleryIndex() {
   updateGalleryVisibility();
 }
 refreshGalleryIndex();
+
+function isImagePath(pathname) {
+  return /\.(avif|bmp|gif|jpe?g|png|svg|webp)$/i.test(pathname);
+}
+
+async function fetchImageUrlsFromFolder(folderPath) {
+  try {
+    const response = await fetch(folderPath, { cache: 'no-store' });
+    if (!response.ok) return null;
+
+    const html = await response.text();
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    const links = Array.from(doc.querySelectorAll('a[href]'));
+    if (!links.length) return null;
+
+    const folderUrl = new URL(folderPath, window.location.href);
+    const imageUrls = links
+      .map((link) => link.getAttribute('href') || '')
+      .map((href) => {
+        try {
+          return new URL(href, folderUrl);
+        } catch {
+          return null;
+        }
+      })
+      .filter((url) => url && isImagePath(url.pathname))
+      .map((url) => url.href);
+
+    const unique = Array.from(new Set(imageUrls));
+    unique.sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
+    return unique;
+  } catch {
+    return null;
+  }
+}
+
+function renderGalleryItems(grid, imageUrls, altText) {
+  grid.innerHTML = imageUrls
+    .map((src) => `<div class="gallery-item"><img src="${escapeHtml(src)}" alt="${escapeHtml(altText)}" loading="lazy"/></div>`)
+    .join('');
+}
+
+async function loadGalleryFromFolders() {
+  const galleryConfigs = [
+    { gridId: 'galleryFloorGrid', folder: 'Photos/Floor/', alt: 'Restaurant interior' },
+    { gridId: 'galleryBarGrid', folder: 'Photos/Bar/', alt: 'Bar area' }
+  ];
+
+  await Promise.all(galleryConfigs.map(async (config) => {
+    const grid = document.getElementById(config.gridId);
+    if (!grid) return;
+
+    const imageUrls = await fetchImageUrlsFromFolder(config.folder);
+    if (!imageUrls || !imageUrls.length) return;
+
+    renderGalleryItems(grid, imageUrls, config.alt);
+  }));
+
+  refreshGalleryIndex();
+}
 
 function handleBrokenImage(img) {
   if (!img || img.dataset.missingHandled === '1') return;

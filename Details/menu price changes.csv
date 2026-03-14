@@ -1,0 +1,37 @@
+--> Edit the price and discription etc from here.
+--> Read below what each mean and remember to not take commas away as it might not always reflect correctly as displayed below.
+
+category,item_name,price,description
+
+lightMeals,Beef Burger,R65,Served Without Chips
+lightMeals,Chicken Burger,R65,Served With Chips
+lightMeals,Loaded Fries,R70,"Large chips covered with cheese sauce, bacon bits & Jalapeno"
+lightMeals,Chicken Schnitzel,R100,"Served With a sauce, Chips & Onion Rings"
+lightMeals,Eisbein,R140,Served With Chips
+lightMeals,Half Rack Ribs,R120,Served With Chips
+lightMeals,Full Rack Ribs,R200,Served With Chips
+lightMeals,200g Sirloin Steak & Egg,R100,Served With Chips
+seafood,Hake & Calamari Combo,R150,Served With Chips
+seafood,Calamari,R105,Served With Chips
+seafood,Large Hake,R105,Served With Chips
+pizza,Focaccia,R70,
+pizza,Hawaiin,R130,
+pizza,Rib,R130,
+pizza,BBQ Chicken,R120,
+pizza,Creamy Jalapeno & Bacon,R120,
+addOns,Egg,R8,
+addOns,Cheese Slice,R8,
+addOns,Pineapple,R15,
+addOns,Jalapeno,R15,
+addOns,Bacon,R15,
+addOns,Pepper Sauce,R38,
+addOns,Cheese Sauce,R36,
+addOns,Mushroom Sauce,R38,
+drinks,Strawberry,R40,
+drinks,Bubblegum,R40,
+drinks,Lime,R40,
+drinks,Vanilla,R40,
+drinks,Coffee,R40,
+drinks,Cookies & Cream,R40,
+drinks,Caramel,R40,
+drinks,Peanut Butter,R40,

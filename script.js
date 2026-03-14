@@ -29,6 +29,40 @@ navLinks.querySelectorAll('a').forEach(a => {
 /* ── Ticker loop ── */
 let tickerLoopFrame = 0;
 
+async function loadTickerFromCsv() {
+  const ticker = document.querySelector('.ticker');
+  if (!ticker) return;
+
+  try {
+    const response = await fetch('ticker.csv', { cache: 'no-store' });
+    if (!response.ok) return;
+
+    const csvText = await response.text();
+    const lines = csvText.split(/\r?\n/).filter(line => line.trim());
+    if (lines.length <= 1) return;
+
+    const entries = lines
+      .slice(1)
+      .map(line => {
+        const [icon = '', ...rest] = line.split(',');
+        const text = rest.join(',').trim();
+        return { icon: icon.trim(), text };
+      })
+      .filter(item => item.text);
+
+    if (!entries.length) return;
+
+    ticker.innerHTML = entries
+      .map(item => `<span>${item.icon ? `${item.icon} ` : ''}${item.text}</span>`)
+      .join('');
+
+    // Reset cached base markup so loop setup uses the latest ticker content.
+    delete ticker.dataset.baseMarkup;
+  } catch {
+    // Keep the inline ticker content as fallback when CSV cannot be loaded.
+  }
+}
+
 function setupTickerLoop() {
   const ticker = document.querySelector('.ticker');
   const tickerWrap = document.querySelector('.ticker-wrap');
@@ -73,8 +107,14 @@ function queueTickerLoopSetup() {
   });
 }
 
-document.addEventListener('DOMContentLoaded', queueTickerLoopSetup);
-window.addEventListener('load', queueTickerLoopSetup);
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadTickerFromCsv();
+  queueTickerLoopSetup();
+});
+window.addEventListener('load', async () => {
+  await loadTickerFromCsv();
+  queueTickerLoopSetup();
+});
 window.addEventListener('resize', queueTickerLoopSetup);
 
 if (document.fonts && document.fonts.ready) {
@@ -93,6 +133,28 @@ tabs.forEach(tab => {
     const id = `menu-${tab.dataset.tab}`;
     const grid = document.getElementById(id);
     if (grid) grid.classList.remove('hidden');
+  });
+});
+
+/* ── Drinks Sub-Tabs ── */
+const drinksSubtabGroups = document.querySelectorAll('.drinks-subtabs');
+drinksSubtabGroups.forEach(group => {
+  const tabs = group.querySelectorAll('.drinks-subtab');
+  const section = group.closest('.menu-grid');
+  const sectionPrefix = group.dataset.submenuPrefix || (section ? section.id : 'menu-drinks');
+
+  tabs.forEach(subTab => {
+    subTab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      if (section) {
+        section.querySelectorAll('.drinks-subgrid').forEach(grid => grid.classList.add('hidden'));
+      }
+
+      subTab.classList.add('active');
+      const targetId = `${sectionPrefix}-${subTab.dataset.drinksTab}`;
+      const targetGrid = document.getElementById(targetId);
+      if (targetGrid) targetGrid.classList.remove('hidden');
+    });
   });
 });
 
@@ -190,7 +252,10 @@ let lightboxIndex = 0;
 function updateGalleryVisibility() {
   document.querySelectorAll('.gallery-category').forEach(cat => {
     const grid = cat.querySelector('.gallery-grid');
-    if (grid && grid.children.length === 0) {
+    const visibleItems = grid
+      ? Array.from(grid.children).filter((item) => !item.classList.contains('is-hidden-broken')).length
+      : 0;
+    if (grid && visibleItems === 0) {
       cat.style.display = 'none';
     } else {
       cat.style.display = '';
@@ -201,20 +266,74 @@ function updateGalleryVisibility() {
 function refreshGalleryIndex() {
   galleryImages = Array.from(
     document.querySelectorAll('#galleryFloorGrid .gallery-item img, #galleryBarGrid .gallery-item img')
-  ).map(img => img.src);
+  )
+    .filter((img) => !img.classList.contains('is-broken') && !img.closest('.is-hidden-broken'))
+    .map(img => img.src);
   updateGalleryVisibility();
 }
 refreshGalleryIndex();
 
-// remove any gallery images that fail to load (missing folder etc.)
-document.querySelectorAll('.gallery-item img').forEach(img => {
-  img.addEventListener('error', () => {
-    const item = img.closest('.gallery-item');
-    if (item) {
-      item.remove();
-      refreshGalleryIndex();
-    }
-  });
+function handleBrokenImage(img) {
+  if (!img || img.dataset.missingHandled === '1') return;
+
+  // Never mark the lightbox image as broken; it starts empty and is populated on click.
+  if (img.id === 'lightboxImg' || img.closest('.lightbox')) return;
+
+  // Ignore placeholders without a real source.
+  const rawSrc = (img.getAttribute('src') || '').trim();
+  if (!rawSrc) return;
+
+  img.dataset.missingHandled = '1';
+
+  const galleryItem = img.closest('.gallery-item');
+  if (galleryItem) {
+    img.classList.add('is-broken');
+    galleryItem.classList.add('is-hidden-broken');
+    refreshGalleryIndex();
+    return;
+  }
+
+  const menuCard = img.closest('.menu-card');
+  if (menuCard) {
+    img.classList.add('is-broken');
+    menuCard.classList.add('no-image');
+    return;
+  }
+
+  const specialCard = img.closest('.special-card');
+  if (specialCard) {
+    img.classList.add('is-broken');
+    specialCard.classList.add('is-hidden-broken');
+    return;
+  }
+
+  const aboutFrame = img.closest('.about-img-frame');
+  if (aboutFrame) {
+    const aboutSection = img.closest('.about');
+    const aboutCol = img.closest('.about-img-col');
+    img.classList.add('is-broken');
+    if (aboutCol) aboutCol.classList.add('is-hidden-broken');
+    if (aboutSection) aboutSection.classList.add('no-image');
+    return;
+  }
+
+  img.classList.add('is-broken');
+}
+
+// Catch broken image paths globally so no empty image blocks remain.
+document.addEventListener('error', (event) => {
+  const target = event.target;
+  if (target && target.tagName === 'IMG') {
+    handleBrokenImage(target);
+  }
+}, true);
+
+// Handle images that already finished loading in a broken state.
+document.querySelectorAll('img').forEach((img) => {
+  const hasSource = Boolean((img.getAttribute('src') || '').trim());
+  if (hasSource && img.complete && img.naturalWidth === 0) {
+    handleBrokenImage(img);
+  }
 });
 
 /* ── Lightbox open ── */
@@ -224,8 +343,10 @@ document.addEventListener('click', e => {
   if (!item) return;
   const img = item.querySelector('img');
   if (!img) return;
+  if (img.classList.contains('is-broken') || item.classList.contains('is-hidden-broken')) return;
   refreshGalleryIndex();
   lightboxIndex = galleryImages.indexOf(img.src);
+  if (lightboxIndex < 0 || galleryImages.length === 0) return;
   openLightbox(lightboxIndex);
 });
 

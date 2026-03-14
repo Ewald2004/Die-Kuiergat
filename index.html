@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>Die Kuiergat</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Barlow:wght@300;400;600&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet"/>
@@ -53,9 +53,7 @@
   <div class="ticker-wrap">
     <div class="ticker">
       
-      <span>🔥 Sassa Pot Sundays</span>
-      <span>🥩 Burger Special Wednesday</span>
-      <span>🍺 Brandy special all week</span>
+      
       
     </div>
   </div>
@@ -190,37 +188,89 @@
       <button class="menu-tab active" data-tab="lightMeals">🔥 Light Meals</button>
       <button class="menu-tab" data-tab="seafood">🦀 Seafood</button>
       <button class="menu-tab" data-tab="Pizza">🍕 Pizza</button>
+      <button class="menu-tab " data-tab="addOns">🔥 Add Ons</button>
       <button class="menu-tab" data-tab="drinks">🍺 Drinks</button>
+      
+
     </div>
 
     <div class="menu-grid" id="menu-lightMeals">
-      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Beef Burger</h3><p> Served With Chips </p><span class="price">R65</span></div></div>
-      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Chicken Burger</h3><p>Served With Chips</p><span class="price">R65</span></div></div>
-      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Loaded Fries</h3><p>Large chips covered with cheese sauce, bacon bits & Jalapeno</p><span class="price">R70</span></div></div>
-      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Chicken Schnitzel</h3><p>Served With a sauce, Chips & Onion Rings</p><span class="price">R100</span></div></div>
-      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Eisbein</h3><p>Served With Chips</p><span class="price">R140</span></div></div>
-      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Half Rack Ribs</h3><p>Served With Chips</p><span class="price">R120</span></div></div>
-      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Full Rack Ribs</h3><p>Served With Chips</p><span class="price">R200</span></div></div>
-      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>200g Sirloin Steak & Egg</h3><p>Served With Chips</p><span class="price">R100</span></div></div>
+      <div class="menu-card"><img class="menu-card-img" src="Photos/Food/LightMeals/BeefBurger.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Beef Burger</h3><p> Served With Chips </p><span class="price">R65</span></div></div>
+      <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Test.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Chicken Burger</h3><p>Served With Chips</p><span class="price">R65</span></div></div>
+      <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Test.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Loaded Fries</h3><p>Large chips covered with cheese sauce, bacon bits & Jalapeno</p><span class="price">R70</span></div></div>
+      <div class="menu-card"><img class="menu-card-img" src="Photos/Food/LightMeals/ChickenSchnitzel.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Chicken Schnitzel</h3><p>Served With a sauce, Chips & Onion Rings</p><span class="price">R100</span></div></div>
+      <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Test.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Eisbein</h3><p>Served With Chips</p><span class="price">R140</span></div></div>
+      <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Test.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Half Rack Ribs</h3><p>Served With Chips</p><span class="price">R120</span></div></div>
+      <div class="menu-card"><img class="menu-card-img" src="Photos/Food/LightMeals/FullRackRibs.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Full Rack Ribs</h3><p>Served With Chips</p><span class="price">R200</span></div></div>
+      <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Test.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>200g Sirloin Steak & Egg</h3><p>Served With Chips</p><span class="price">R100</span></div></div>
       
       
     </div>
 
     <div class="menu-grid hidden" id="menu-seafood">
-      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Hake & Calamari Combo</h3><p> Served With Chips </p><span class="price">R150</span></div></div>
-      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Calamari</h3><p>Served With Chips</p><span class="price">R105</span></div></div>
-      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Large Hake</h3><p>Served With Chips</p><span class="price">R105</span></div></div>
+      <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Seafood/Hake&CalamariCombo.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Hake & Calamari Combo</h3><p> Served With Chips </p><span class="price">R150</span></div></div>
+      <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Seafood/Calamari.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Calamari</h3><p>Served With Chips</p><span class="price">R105</span></div></div>
+      <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Test.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Large Hake</h3><p>Served With Chips</p><span class="price">R105</span></div></div>
       
       
     </div>
 
 
     <div class="menu-grid hidden" id="menu-Pizza">
-      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Focaccia</h3><span class="price">R70</span></div></div>
-      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Hawaiin</h3><span class="price">R120</span></div></div>
-      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Rib</h3><span class="price">R130</span></div></div>
-      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>BBQ Chicken</h3><span class="price">R120</span></div></div>
-      <div class="menu-card"><div class="menu-card-img" style="background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80') center/cover"></div><div class="menu-card-body"><h3>Creamy Jalapeno & Bacon</h3><span class="price">R120</span></div></div>
+      <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Test.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Focaccia</h3><span class="price">R70</span></div></div>
+      <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Test.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Hawaiin</h3><span class="price">R130</span></div></div>
+      <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Test.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Rib</h3><span class="price">R130</span></div></div>
+      <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Pizza/BBQChicken.jpeg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>BBQ Chicken</h3><span class="price">R120</span></div></div>
+      <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Pizza/CreamyJalapeno&Bacon.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Creamy Jalapeno & Bacon</h3><span class="price">R120</span></div></div>
+    </div>
+
+
+
+     <div class="menu-grid hidden" id="menu-addOns">
+      <div class="drinks-subtabs" data-submenu-prefix="menu-addOns" role="tablist" aria-label="Add Ons categories">
+        <button class="drinks-subtab active" data-drinks-tab="AddOns" type="button">ADD ONS</button>
+        <button class="drinks-subtab" data-drinks-tab="sauces" type="button">Sauces</button>
+        
+      </div>
+
+      <div class="drinks-subgrid" id="menu-addOns-AddOns">
+        <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Test.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Egg</h3><span class="price">R8</span></div></div>
+        <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Test.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Cheese Slice</h3><span class="price">R8</span></div></div>
+        <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Test.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Pineapple</h3><span class="price">R15</span></div></div>
+        <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Test.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Jalapeno</h3><span class="price">R15</span></div></div>
+        <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Test.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Bacon</h3><span class="price">R15</span></div></div>
+      </div>
+
+      <div class="drinks-subgrid hidden" id="menu-addOns-sauces">
+        <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Test.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Pepper Sauce</h3><span class="price">R38</span></div></div>
+        <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Test.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Cheese Sauce</h3><span class="price">R36</span></div></div>
+        <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Test.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Mushroom Sauce</h3><span class="price">R38</span></div></div>
+      </div>
+
+    </div>
+
+
+
+
+
+    <div class="menu-grid hidden" id="menu-drinks">
+      <div class="drinks-subtabs" data-submenu-prefix="menu-drinks" role="tablist" aria-label="Drinks categories">
+        <button class="drinks-subtab active" data-drinks-tab="beers" type="button">Milkshakes</button>
+        
+      </div>
+
+      <div class="drinks-subgrid" id="menu-drinks-beers">
+        <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Test.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Strawberry</h3><span class="price">R40</span></div></div>
+        <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Test.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Bubblegum</h3><span class="price">R40</span></div></div>
+        <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Test.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Lime</h3><span class="price">R40</span></div></div>
+        <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Test.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Vanilla</h3><span class="price">R40</span></div></div>
+        <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Test.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Coffee</h3><span class="price">R40</span></div></div>
+        <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Test.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Cookies & Cream</h3><span class="price">R40</span></div></div>
+        <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Test.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Caramel</h3><span class="price">R40</span></div></div>
+        <div class="menu-card"><img class="menu-card-img" src="Photos/Food/Test.jpg" alt="Menu item photo" loading="lazy"/><div class="menu-card-body"><h3>Peanut Butter</h3><span class="price">R40</span></div></div>
+      </div>
+
+      
     </div>
 <!--
     <div class="menu-grid hidden" id="menu-drinks">
@@ -255,15 +305,9 @@
       <h3>The Floor</h3>
       <div class="gallery-grid horizontal-scroll" id="galleryFloorGrid">
         <div class="gallery-item"><img src="Photos/Floor/Floor1.jpeg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Bar/Bar1.jpeg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor1.jpeg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor1.jpeg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor1.jpeg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor1.jpeg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor1.jpeg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor2.jpeg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor3.jpeg" alt="Restaurant interior"/></div>
-        <div class="gallery-item"><img src="Photos/Floor/Floor4.jpeg" alt="Restaurant interior"/></div>
+        <div class="gallery-item"><img src="Photos/Floor/Floor2.jpg" alt="Restaurant interior"/></div>
+        <div class="gallery-item"><img src="Photos/Floor/Floor3.jpg" alt="Restaurant interior"/></div>
+        <div class="gallery-item"><img src="Photos/Floor/Floor4.jpg" alt="Restaurant interior"/></div>
         <div class="gallery-item"><img src="Photos/Floor/Floor5.jpeg" alt="Restaurant interior"/></div>
         <div class="gallery-item"><img src="Photos/Floor/Floor6.jpeg" alt="Restaurant interior"/></div>
         <div class="gallery-item"><img src="Photos/Floor/Floor7.jpeg" alt="Restaurant interior"/></div>
@@ -273,6 +317,15 @@
         <div class="gallery-item"><img src="Photos/Floor/Floor11.jpeg" alt="Restaurant interior"/></div>
         <div class="gallery-item"><img src="Photos/Floor/Floor12.jpeg" alt="Restaurant interior"/></div>
         <div class="gallery-item"><img src="Photos/Floor/Floor13.jpeg" alt="Restaurant interior"/></div>
+        <div class="gallery-item"><img src="Photos/Floor/Floor14.jpeg" alt="Restaurant interior"/></div>
+        <div class="gallery-item"><img src="Photos/Floor/Floor15.jpeg" alt="Restaurant interior"/></div>
+        <div class="gallery-item"><img src="Photos/Floor/Floor16.jpeg" alt="Restaurant interior"/></div>
+        <div class="gallery-item"><img src="Photos/Floor/Floor17.jpeg" alt="Restaurant interior"/></div>
+        <div class="gallery-item"><img src="Photos/Floor/Floor18.jpeg" alt="Restaurant interior"/></div>
+        <div class="gallery-item"><img src="Photos/Floor/Floor19.jpeg" alt="Restaurant interior"/></div>
+        <div class="gallery-item"><img src="Photos/Floor/Floor20.jpeg" alt="Restaurant interior"/></div>
+        
+        
       </div>
     </div>
 
@@ -280,15 +333,8 @@
       <h3>The Bar</h3>
       <div class="gallery-grid horizontal-scroll" id="galleryBarGrid">
         <div class="gallery-item tall"><img src="Photos/Bar/Bar1.jpeg" alt="Bar area"/></div>
-        <div class="gallery-item tall"><img src="Photos/Bar/Bar1.jpeg" alt="Bar area"/></div>
-        <div class="gallery-item tall"><img src="Photos/Bar/Bar1.jpeg" alt="Bar area"/></div>
-        <div class="gallery-item tall"><img src="Photos/Bar/Bar1.jpeg" alt="Bar area"/></div>
-        <div class="gallery-item tall"><img src="Photos/Bar/Bar1.jpeg" alt="Bar area"/></div>
-        <div class="gallery-item tall"><img src="Photos/Bar/Bar1.jpeg" alt="Bar area"/></div>
         <div class="gallery-item tall"><img src="Photos/Bar/Bar2.jpeg" alt="Bar area"/></div>
         <div class="gallery-item tall"><img src="Photos/Bar/Bar3.jpeg" alt="Bar area"/></div>
-        <div class="gallery-item tall"><img src="Photos/Bar/Bar4.jpeg" alt="Bar area"/></div>
-        <div class="gallery-item tall"><img src="Photos/Bar/Bar5.jpeg" alt="Bar area"/></div>
       </div>
     </div>
 

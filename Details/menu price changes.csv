@@ -1,37 +1,38 @@
---> Edit the price and discription etc from here.
---> Read below what each mean and remember to not take commas away as it might not always reflect correctly as displayed below.
+--> Edit menu items here. Add new rows to create new items. Leave photo_path blank to keep existing photo.
+--> category values: lightMeals | seafood | pizza | addOns | addOns/sauces | drinks
+--> photo_path example: Photos/Food/LightMeals/BeefBurger.jpg  (leave blank if no photo yet)
 
-category,item_name,price,description
+category,item_name,price,description,photo_path
 
-lightMeals,Beef Burger,R65,Served Without Chips
-lightMeals,Chicken Burger,R65,Served With Chips
-lightMeals,Loaded Fries,R70,"Large chips covered with cheese sauce, bacon bits & Jalapeno"
-lightMeals,Chicken Schnitzel,R100,"Served With a sauce, Chips & Onion Rings"
-lightMeals,Eisbein,R140,Served With Chips
-lightMeals,Half Rack Ribs,R120,Served With Chips
-lightMeals,Full Rack Ribs,R200,Served With Chips
-lightMeals,200g Sirloin Steak & Egg,R100,Served With Chips
-seafood,Hake & Calamari Combo,R150,Served With Chips
-seafood,Calamari,R105,Served With Chips
-seafood,Large Hake,R105,Served With Chips
-pizza,Focaccia,R70,
-pizza,Hawaiin,R130,
-pizza,Rib,R130,
-pizza,BBQ Chicken,R120,
-pizza,Creamy Jalapeno & Bacon,R120,
-addOns,Egg,R8,
-addOns,Cheese Slice,R8,
-addOns,Pineapple,R15,
-addOns,Jalapeno,R15,
-addOns,Bacon,R15,
-addOns,Pepper Sauce,R38,
-addOns,Cheese Sauce,R36,
-addOns,Mushroom Sauce,R38,
-drinks,Strawberry,R40,
-drinks,Bubblegum,R40,
-drinks,Lime,R40,
-drinks,Vanilla,R40,
-drinks,Coffee,R40,
-drinks,Cookies & Cream,R40,
-drinks,Caramel,R40,
-drinks,Peanut Butter,R40,
+lightMeals,Beef Burger,R65,Served With Chips,Photos/Food/LightMeals/BeefBurger
+lightMeals,Chicken Burger,R65,Served With Chips,
+lightMeals,Loaded Fries,R70,"Large chips covered with cheese sauce, bacon bits & Jalapeno",
+lightMeals,Chicken Schnitzel,R100,"Served With a sauce, Chips & Onion Rings",Photos/Food/LightMeals/ChickenSchnitzel
+lightMeals,Eisbein,R140,Served With Chips,
+lightMeals,Half Rack Ribs,R120,Served With Chips,
+lightMeals,Full Rack Ribs,R200,Served With Chips,Photos/Food/LightMeals/FullRackRibs
+lightMeals,200g Sirloin Steak & Egg,R100,Served With Chips,
+seafood,Hake & Calamari Combo,R150,Served With Chips,Photos/Food/Seafood/Hake&CalamariCombo
+seafood,Calamari,R105,Served With Chips,Photos/Food/Seafood/Calamari
+seafood,Large Hake,R105,Served With Chips,
+pizza,Focaccia,R70,,
+pizza,Hawaiin,R130,,
+pizza,Rib,R130,,
+pizza,BBQ Chicken,R120,,Photos/Food/Pizza/BBQChicken
+pizza,Creamy Jalapeno & Bacon,R120,,Photos/Food/Pizza/CreamyJalapeno&Bacon
+addOns,Egg,R8,,
+addOns,Cheese Slice,R8,,
+addOns,Pineapple,R15,,
+addOns,Jalapeno,R15,,
+addOns,Bacon,R15,,
+addOns/sauces,Pepper Sauce,R38,,
+addOns/sauces,Cheese Sauce,R36,,
+addOns/sauces,Mushroom Sauce,R38,,
+drinks,Strawberry,R40,,
+drinks,Bubblegum,R40,,
+drinks,Lime,R40,,
+drinks,Vanilla,R40,,
+drinks,Coffee,R40,,
+drinks,Cookies & Cream,R40,,
+drinks,Caramel,R40,,
+drinks,Peanut Butter,R40,,

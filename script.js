@@ -110,6 +110,111 @@ function escapeHtml(text) {
     .replace(/'/g, '&#39;');
 }
 
+async function resolvePhotoPath(photoPath) {
+  const path = (photoPath || '').trim();
+  if (!path) return '';
+  if (/^https?:\/\//i.test(path) || path.startsWith('/') || hasFileExtension(path)) return path;
+
+  const extensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.avif', '.jfif'];
+  for (const ext of extensions) {
+    const candidate = `${path}${ext}`;
+    try {
+      const res = await fetch(candidate, { method: 'HEAD', cache: 'no-store' });
+      if (res.ok) return candidate;
+    } catch { /* try next */ }
+  }
+  return '';
+}
+
+function buildEventPhotoPath(photoDirectory, photoFile) {
+  const file = (photoFile || '').trim();
+  if (!file) return '';
+
+  if (/^https?:\/\//i.test(file) || file.startsWith('/')) {
+    return file;
+  }
+
+  const directory = (photoDirectory || '').trim().replace(/\\/g, '/').replace(/\/+$/, '');
+  return directory ? `${directory}/${file}` : file;
+}
+
+function hasFileExtension(path) {
+  const cleanPath = (path || '').split('?')[0].split('#')[0];
+  return /\.[a-z0-9]{2,5}$/i.test(cleanPath);
+}
+
+async function resolveEventPhotoPath(photoDirectory, photoFile) {
+  const basePath = buildEventPhotoPath(photoDirectory, photoFile);
+  if (!basePath) return '';
+
+  // Keep absolute URLs and explicit file extensions untouched.
+  if (/^https?:\/\//i.test(basePath) || basePath.startsWith('/') || hasFileExtension(basePath)) {
+    return basePath;
+  }
+
+  const extensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.avif', '.jfif'];
+
+  for (const ext of extensions) {
+    const candidate = `${basePath}${ext}`;
+    try {
+      const response = await fetch(candidate, { method: 'HEAD', cache: 'no-store' });
+      if (response.ok) return candidate;
+    } catch {
+      // Continue trying other extensions.
+    }
+  }
+
+  return '';
+}
+
+async function loadEventsFromCsv() {
+  const eventsGrid = document.getElementById('eventsGrid');
+  if (!eventsGrid) return;
+
+  // Events are CSV-driven only; clear inline content before loading.
+  eventsGrid.innerHTML = '';
+
+  try {
+    const response = await fetch('Details/events.csv', { cache: 'no-store' });
+    if (!response.ok) return;
+
+    const csvText = await response.text();
+    const lines = getCsvLines(csvText);
+    if (lines.length <= 1) return;
+
+    const rows = lines.slice(1).map(parseCsvRow);
+    const entriesWithPhotos = await Promise.all(rows.map(async (row) => {
+        const [day = '', month = '', title = '', description = '', photoDirectory = '', photoFile = ''] = row;
+        return {
+          day: day.trim(),
+          month: month.trim(),
+          title: title.trim(),
+          description: description.trim(),
+          photoPath: await resolveEventPhotoPath(photoDirectory, photoFile)
+        };
+      }));
+
+    const entries = entriesWithPhotos.filter((item) => item.title);
+
+    if (!entries.length) return;
+
+    eventsGrid.innerHTML = entries.map((item) => {
+      const safeTitle = escapeHtml(item.title);
+      const safeDay = escapeHtml(item.day || '--');
+      const safeMonth = escapeHtml(item.month || '---');
+      const safeDescription = escapeHtml(item.description).replace(/\|/g, '<br/>');
+      const safePhotoPath = escapeHtml(item.photoPath);
+      const photoMarkup = safePhotoPath
+        ? `<img class="event-photo" src="${safePhotoPath}" alt="${safeTitle} photo" loading="lazy"/>`
+        : '';
+
+      return `<div class="event-card">${photoMarkup}<div class="event-date"><span class="day">${safeDay}</span><span class="month">${safeMonth}</span></div><div class="event-info"><h3>${safeTitle}</h3><p>${safeDescription}</p></div></div>`;
+    }).join('');
+  } catch {
+    // Keep the events section empty when CSV cannot be loaded.
+  }
+}
+
 async function loadDescriptionsFromCsv() {
   const descriptionNodes = Array.from(document.querySelectorAll('[data-desc-key]'));
   if (!descriptionNodes.length) return;
@@ -190,21 +295,33 @@ async function loadSpecialChangesFromCsv() {
   }
 }
 
-function getMenuGridByCategory(category) {
+function getMenuTargetForCategory(category) {
   const normalized = category.trim().toLowerCase();
-  const categoryToId = {
-    lightmeals: 'menu-lightMeals',
-    seafood: 'menu-seafood',
-    pizza: 'menu-Pizza',
-    addons: 'menu-addOns',
-    drinks: 'menu-drinks'
+  const mapping = {
+    'lightmeals':      { searchId: 'menu-lightMeals',  insertId: 'menu-lightMeals' },
+    'seafood':         { searchId: 'menu-seafood',      insertId: 'menu-seafood' },
+    'pizza':           { searchId: 'menu-Pizza',         insertId: 'menu-Pizza' },
+    'addons':          { searchId: 'menu-addOns',        insertId: 'menu-addOns-AddOns' },
+    'addons/addons':   { searchId: 'menu-addOns',        insertId: 'menu-addOns-AddOns' },
+    'addons/sauces':   { searchId: 'menu-addOns',        insertId: 'menu-addOns-sauces' },
+    'drinks':          { searchId: 'menu-drinks',        insertId: 'menu-drinks-beers' },
+    'drinks/beers':    { searchId: 'menu-drinks',        insertId: 'menu-drinks-beers' },
   };
-
-  const gridId = categoryToId[normalized];
-  return gridId ? document.getElementById(gridId) : null;
+  return mapping[normalized] || null;
 }
 
-function setMenuItemDetails(scopeElement, itemName, newPrice, newDescription = '') {
+function createMenuCard(itemName, price, description, resolvedPhoto) {
+  const photo = resolvedPhoto || 'Photos/Food/Test.jpg';
+  const descHtml = description.trim()
+    ? `<p>${escapeHtml(description.trim())}</p>`
+    : '';
+  const card = document.createElement('div');
+  card.className = 'menu-card';
+  card.innerHTML = `<img class="menu-card-img" src="${escapeHtml(photo)}" alt="${escapeHtml(itemName)} photo" loading="lazy"/><div class="menu-card-body"><h3>${escapeHtml(itemName)}</h3>${descHtml}<span class="price">${escapeHtml(price.trim())}</span></div>`;
+  return card;
+}
+
+function setMenuItemDetails(scopeElement, itemName, newPrice, newDescription = '', resolvedPhoto = '') {
   const cards = Array.from(scopeElement.querySelectorAll('.menu-card'));
   const match = cards.find((card) => {
     const title = card.querySelector('.menu-card-body h3');
@@ -215,6 +332,14 @@ function setMenuItemDetails(scopeElement, itemName, newPrice, newDescription = '
 
   const body = match.querySelector('.menu-card-body');
   if (!body) return false;
+
+  const imgNode = match.querySelector('.menu-card-img');
+  if (imgNode && resolvedPhoto) {
+    imgNode.src = resolvedPhoto;
+    imgNode.dataset.missingHandled = '';
+    imgNode.classList.remove('is-broken');
+    match.classList.remove('no-image');
+  }
 
   const priceNode = match.querySelector('.price');
   if (priceNode && newPrice.trim()) {
@@ -246,21 +371,31 @@ async function loadMenuPriceChangesFromCsv() {
     const lines = getCsvLines(csvText);
     if (lines.length <= 1) return;
 
-    lines.slice(1).map(parseCsvRow).forEach((row) => {
-      const [category = '', itemName = '', price = '', description = ''] = row;
+    const rows = lines.slice(1).map(parseCsvRow);
+
+    await Promise.all(rows.map(async (row) => {
+      const [category = '', itemName = '', price = '', description = '', photoPath = ''] = row;
       if (!itemName.trim()) return;
 
-      const categoryGrid = category.trim() ? getMenuGridByCategory(category) : null;
+      const resolvedPhoto = await resolvePhotoPath(photoPath);
+      const target = category.trim() ? getMenuTargetForCategory(category) : null;
 
-      if (categoryGrid) {
-        setMenuItemDetails(categoryGrid, itemName, price, description);
-        return;
+      if (target) {
+        const searchGrid = document.getElementById(target.searchId);
+        if (searchGrid) {
+          const found = setMenuItemDetails(searchGrid, itemName, price, description, resolvedPhoto);
+          if (!found) {
+            const insertContainer = document.getElementById(target.insertId) || searchGrid;
+            insertContainer.appendChild(createMenuCard(itemName, price, description, resolvedPhoto));
+          }
+          return;
+        }
       }
 
       // Fallback: search all menu sections if category is blank/unknown.
       const allMenuGrids = Array.from(document.querySelectorAll('#menu .menu-grid'));
-      allMenuGrids.some((grid) => setMenuItemDetails(grid, itemName, price, description));
-    });
+      allMenuGrids.some((grid) => setMenuItemDetails(grid, itemName, price, description, resolvedPhoto));
+    }));
   } catch {
     // Keep inline prices as fallback when CSV cannot be loaded.
   }
@@ -353,6 +488,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadDescriptionsFromCsv();
   await loadSpecialChangesFromCsv();
   await loadMenuPriceChangesFromCsv();
+  await loadEventsFromCsv();
   await loadContactDetailsFromCsv();
   await loadGalleryFromFolders();
   queueTickerLoopSetup();
@@ -404,91 +540,8 @@ drinksSubtabGroups.forEach(group => {
   });
 });
 
-/* ── Modal helpers ── */
-function openModal(id) {
-  document.getElementById(id).classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeModal(id) {
-  document.getElementById(id).classList.remove('open');
-  document.body.style.overflow = '';
-}
-// Close on overlay click
-document.querySelectorAll('.modal-overlay').forEach(overlay => {
-  overlay.addEventListener('click', e => {
-    if (e.target === overlay) closeModal(overlay.id);
-  });
-});
-
-/* ── Toast ── */
-function showToast(msg, duration = 3200) {
-  const toast = document.getElementById('toast');
-  toast.textContent = msg;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), duration);
-}
-
-
-
-
-
 /* ════════════════════════════════════
-   SPECIALS — Interactive Features
-════════════════════════════════════ */
-
-function handleSpecialOrder(specialName) {
-  showToast(`🔥 ${specialName} added to your order!`);
-  // Here you could add logic to add to cart, open reservation modal, etc.
-}
-
-function handleMenuOrder(menuItem) {
-  showToast(`🍽️ ${menuItem} added to your order!`);
-  // Here you could add logic to add to cart, update order total, etc.
-}
-
-function updateSpecialsTime() {
-  const now = new Date();
-  const hours = now.getHours();
-  const specialsCards = document.querySelectorAll('.special-card');
-
-  // Example: Highlight lunch special during lunch hours (11am-3pm)
-  const isLunchTime = hours >= 11 && hours < 15;
-  specialsCards.forEach(card => {
-    if (card.querySelector('.special-badge').textContent.includes('Lunch') && isLunchTime) {
-      card.style.border = '3px solid var(--flame)';
-      card.style.boxShadow = '0 0 20px rgba(232,66,10,0.3)';
-    } else {
-      card.style.border = '';
-      card.style.boxShadow = '';
-    }
-  });
-}
-
-// Initialize specials functionality
-document.addEventListener('DOMContentLoaded', () => {
-  // Add click handlers to special buttons
-  document.querySelectorAll('.btn-special').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const specialName = e.target.closest('.special-content').querySelector('h3').textContent;
-      handleSpecialOrder(specialName);
-    });
-  });
-
-  // Add click handlers to menu order buttons
-  document.querySelectorAll('.btn-menu-order').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const menuItem = e.target.closest('.menu-card-body').querySelector('h3').textContent;
-      handleMenuOrder(menuItem);
-    });
-  });
-
-  // Update specials based on time
-  updateSpecialsTime();
-  setInterval(updateSpecialsTime, 60000); // Check every minute
-});
-
-/* ════════════════════════════════════
-   GALLERY — Upload & Lightbox
+  GALLERY — Lightbox
 ════════════════════════════════════ */
 
 let galleryImages = []; // stores all src strings for lightbox
@@ -678,115 +731,9 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowLeft')   shiftLightbox(-1);
 });
 
-/* ── File upload handler ── */
-const fileInput  = document.getElementById('fileInput');
-const uploadZone = document.getElementById('uploadZone');
-const galleryGrid = document.getElementById('galleryGrid');
-
-if (fileInput && uploadZone) {
-  fileInput.addEventListener('change', e => handleFiles(e.target.files));
-
-  // Drag & drop
-  uploadZone.addEventListener('dragover', e => {
-    e.preventDefault();
-    uploadZone.classList.add('drag-over');
-  });
-  uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
-  uploadZone.addEventListener('drop', e => {
-    e.preventDefault();
-    uploadZone.classList.remove('drag-over');
-    handleFiles(e.dataTransfer.files);
-  });
-  // Clicking the zone (not the button) also triggers upload
-  uploadZone.addEventListener('click', e => {
-    if (e.target.tagName !== 'BUTTON') fileInput.click();
-  });
-}
-
-function handleFiles(files) {
-  let count = 0;
-  Array.from(files).forEach(file => {
-    if (!file.type.startsWith('image/')) return;
-    if (file.size > 20 * 1024 * 1024) {
-      showToast(`⚠️ "${file.name}" exceeds 20MB limit.`);
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = ev => {
-      addImageToGallery(ev.target.result, file.name.replace(/\.[^.]+$/, ''));
-      count++;
-      if (count === files.length || count === Array.from(files).filter(f => f.type.startsWith('image/')).length) {
-        showToast(`📸 ${count} photo${count > 1 ? 's' : ''} added to gallery!`);
-      }
-    };
-    reader.readAsDataURL(file);
-  });
-}
-
-function addImageToGallery(src, label = 'Your Photo') {
-  const item = document.createElement('div');
-  item.className = 'gallery-item';
-  item.innerHTML = `
-    <img src="${src}" alt="${label}" loading="lazy"/>
-    <div class="gallery-overlay"><span>${label}</span></div>
-    <button class="gallery-remove-btn" title="Remove photo">✕</button>
-  `;
-  // Remove button
-  item.querySelector('.gallery-remove-btn').addEventListener('click', e => {
-    e.stopPropagation();
-    item.style.transition = 'opacity 0.3s';
-    item.style.opacity = '0';
-    setTimeout(() => { item.remove(); refreshGalleryIndex(); }, 300);
-  });
-
-  // choose container based on label text (category) or default to floor
-  const containerId = label === 'The Bar' ? 'galleryBarGrid' : 'galleryFloorGrid';
-  const container = document.getElementById(containerId) || document.getElementById('galleryFloorGrid');
-  container.appendChild(item);
-  refreshGalleryIndex();
-
-  // Animate in
-  item.style.opacity = '0';
-  item.style.transform = 'scale(0.9)';
-  item.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      item.style.opacity = '1';
-      item.style.transform = 'scale(1)';
-    });
-  });
-}
-
-/* ── Remove button styles injected via JS ── */
-(function injectRemoveBtnStyles() {
-  const style = document.createElement('style');
-  style.textContent = `
-    .gallery-remove-btn {
-      position: absolute;
-      top: 0.5rem;
-      right: 0.5rem;
-      width: 28px; height: 28px;
-      background: rgba(232,66,10,0.85);
-      border: none;
-      border-radius: 50%;
-      color: white;
-      font-size: 0.8rem;
-      cursor: pointer;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.2s;
-      z-index: 10;
-    }
-    .gallery-item:hover .gallery-remove-btn { display: flex; }
-    .gallery-remove-btn:hover { background: #c73009; }
-  `;
-  document.head.appendChild(style);
-})();
-
 /* ── Scroll reveal (Intersection Observer) ── */
 const revealEls = document.querySelectorAll(
-  '.menu-card, .event-card, .about-img-col, .about-text-col, .contact-left, .contact-right'
+  '.menu-card, .event-card, .about-img-col, .about-text-col, .contact-left'
 );
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {

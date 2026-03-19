@@ -4,13 +4,16 @@
 day,name,original_price,discounted_price
 
 
-monday,Fish & Calamari Combo,R150
+
+wednesday,Burger & Chips,R65,R50
+
+
+
+
+monday,Fish & Calamari Combo,R150,R120
 
 
 tuesday,Buy 2 pizzas,R260,R180
-
-
-wednesday,Burger & Chips,R65,R50
 
 
 thursday,Full Rack Ribs,R200,R180
